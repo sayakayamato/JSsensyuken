@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFirebase-Login-Demo</title>
+</head>
+
+<body>
+<button id="login">LOGIN</button>
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- JQuery -->
+
+<script type="module">
+//###############################################
+// 必要なJSを読み込み
+//###############################################
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
+
+
+//###############################################
+// Your web app's Firebase configuration
+//###############################################
+const firebaseConfig = {
+    apiKey: "AIzaSyBBh6lnW2zg27qVJF6xtrW_uWFv-xxpq1s",
+    authDomain: "jssensyuken.firebaseapp.com",
+    databaseURL: "https://jssensyuken-default-rtdb.firebaseio.com",
+    projectId: "jssensyuken",
+    storageBucket: "jssensyuken.appspot.com",
+    messagingSenderId: "588427069682",
+    appId: "1:588427069682:web:b01b00bb7c1ee9d713a86b"
+};
+const app = initializeApp(firebaseConfig);
+
+
+//###############################################
+//GoogleAuth用
+//###############################################
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+const auth = getAuth();
+
+
+//###############################################
+//Login処理
+//###############################################
+$("#login").on("click",function(){
+    signInWithPopup(auth, provider).then((result) => {
+        //Login後のページ遷移
+        location.href="./index.html"; 
+
+    }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+    });
+});
+
+</script>
+</body>
+
+</html>
